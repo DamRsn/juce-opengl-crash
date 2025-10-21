@@ -13,6 +13,7 @@ SimpleEffectAudioProcessorEditor::SimpleEffectAudioProcessorEditor(SimpleEffectA
     mOpenGLButton->onClick = [this]()
     {
         mUseOpenGL = !mUseOpenGL;
+        mOpenGLButton->setButtonText(mUseOpenGL ? "Disable OpenGL" : "Use OpenGL");
         checkRenderEngine();
     };
     addAndMakeVisible(mOpenGLButton.get());
@@ -49,7 +50,7 @@ void SimpleEffectAudioProcessorEditor::paint(juce::Graphics& g)
     else
     {
         g.drawFittedText(
-            "Using Software Rendering", getLocalBounds().withY(40).withHeight(20), juce::Justification::centred, 1);
+            "NOT using OpenGL Rendering", getLocalBounds().withY(40).withHeight(20), juce::Justification::centred, 1);
     }
 }
 
