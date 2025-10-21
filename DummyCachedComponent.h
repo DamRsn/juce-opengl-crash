@@ -7,56 +7,33 @@
 
 #include <juce_gui_basics/juce_gui_basics.h>
 
-class DummyCachedComponent : public juce::Component,
-                             juce::Timer
+class DummyCachedComponent : public juce::Component
 {
 public:
 
-    DummyCachedComponent()
-    {
-        setRepaintsOnMouseActivity(true);
+    DummyCachedComponent() = default;
 
-        startTimerHz(30);
+    void resized() override {}
+
+    void changeBufferedToImage()
+    {
+        mBufferedImage = !mBufferedImage;
+        setBufferedToImage(mBufferedImage);
     }
 
-    void resized() override
+    bool isUsingBufferedImage() const
     {
-        // setBufferedToImage(true);
-    }
-
-    void timerCallback() override
-    {
-        if (r.nextFloat() < 0.05f) {
-            mBufferedImage = !mBufferedImage;
-            DBG("setBufferedToImage: " << (mBufferedImage ? "true" : "false"));
-            setBufferedToImage(mBufferedImage);
-        }
+        return mBufferedImage;
     }
 
     void paint(juce::Graphics& g) override
     {
-        auto n = 50;
-        auto d = 20;
-        auto step = (getWidth() - d) / n;
-
-        if (isMouseOver()) {
-            g.setGradientFill(
-                juce::ColourGradient::horizontal(juce::Colours::red, 0.0f, juce::Colours::yellow, float(getWidth())));
-        } else {
-            g.setGradientFill(
-                juce::ColourGradient::horizontal(juce::Colours::white, 0.0f, juce::Colours::green, float(getWidth())));
-        }
-
-        for (int i = 0; i < n; ++i) {
-            g.drawEllipse(float(i * step), float(getHeight() - d) / 2.0f, float(d), float(d), 1.0f);
-        }
-
-        g.drawText("Some text to display", getLocalBounds(), juce::Justification::centredBottom, false);
+        g.setColour(juce::Colours::white);
+        g.drawRect(getLocalBounds().reduced(1), 1);
+        g.drawText("Some text that can be bufferedToImage", getLocalBounds(), juce::Justification::centred, false);
     }
 
 private:
-
-    juce::Random r;
 
     bool mBufferedImage = false;
 };

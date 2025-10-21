@@ -1,15 +1,15 @@
 #pragma once
 
+#include "DummyCachedComponent.h"
 #include "PluginProcessor.h"
 #include <juce_gui_basics/juce_gui_basics.h>
 #include <juce_opengl/juce_opengl.h>
-#include "DummyCachedComponent.h"
 
 //==============================================================================
-class SimpleEffectAudioProcessorEditor final
-    : public juce::AudioProcessorEditor
+class SimpleEffectAudioProcessorEditor final : public juce::AudioProcessorEditor
 {
 public:
+
     explicit SimpleEffectAudioProcessorEditor(SimpleEffectAudioProcessor&);
     ~SimpleEffectAudioProcessorEditor() override;
 
@@ -22,6 +22,7 @@ public:
     void parentHierarchyChanged() override;
 
 private:
+
     SimpleEffectAudioProcessor& processorRef;
 
     bool mUseOpenGL = false;
@@ -29,6 +30,7 @@ private:
     juce::OpenGLContext mOpenGLContext;
 
     std::unique_ptr<juce::TextButton> mOpenGLButton;
+    std::unique_ptr<juce::TextButton> mSetBufferedToImageButton;
 
     std::unique_ptr<DummyCachedComponent> mDummyCachedComponent;
 
