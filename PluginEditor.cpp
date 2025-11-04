@@ -8,7 +8,10 @@ SimpleEffectAudioProcessorEditor::SimpleEffectAudioProcessorEditor(SimpleEffectA
 {
     juce::ignoreUnused(processorRef);
 
-    mOpenGLButton = std::make_unique<juce::TextButton>("Use OpenGL");
+    mUseOpenGL = true;
+    bool start_with_cached_image = true;
+
+    mOpenGLButton = std::make_unique<juce::TextButton>(mUseOpenGL ? "Disable OpenGL" : "Use OpenGL");
     mOpenGLButton->onClick = [this]() {
         mUseOpenGL = !mUseOpenGL;
         mOpenGLButton->setButtonText(mUseOpenGL ? "Disable OpenGL" : "Use OpenGL");
@@ -18,15 +21,24 @@ SimpleEffectAudioProcessorEditor::SimpleEffectAudioProcessorEditor(SimpleEffectA
 
     mSetBufferedToImageButton = std::make_unique<juce::TextButton>("Set Buffered To Image");
     mSetBufferedToImageButton->onClick = [this] {
-        if (mDummyCachedComponent != nullptr) {
-            mDummyCachedComponent->changeBufferedToImage();
-            repaint();
-        }
+        mDummyCachedComponent->changeBufferedToImage();
+        repaint();
+
+        mInvalidateCachedImageButton->setEnabled(mDummyCachedComponent->isUsingBufferedImage());
     };
     addAndMakeVisible(mSetBufferedToImageButton.get());
 
-    mDummyCachedComponent = std::make_unique<DummyCachedComponent>();
+    mDummyCachedComponent = std::make_unique<DummyCachedComponent>(start_with_cached_image);
     addAndMakeVisible(mDummyCachedComponent.get());
+
+    mInvalidateCachedImageButton = std::make_unique<juce::TextButton>("Invalidate");
+    mInvalidateCachedImageButton->onClick = [this] {
+        jassert(mDummyCachedComponent->isUsingBufferedImage());
+        jassert(mDummyCachedComponent->getCachedComponentImage() != nullptr);
+        mDummyCachedComponent->getCachedComponentImage()->invalidateAll();
+    };
+    mInvalidateCachedImageButton->setEnabled(mDummyCachedComponent->isUsingBufferedImage());
+    addAndMakeVisible(mInvalidateCachedImageButton.get());
 
     setSize(400, 300);
 }
@@ -71,6 +83,7 @@ void SimpleEffectAudioProcessorEditor::resized()
 {
     mOpenGLButton->setBounds(10, 10, 100, 30);
     mSetBufferedToImageButton->setBounds(getWidth() - 160, 10, 150, 30);
+    mInvalidateCachedImageButton->setBounds(getWidth() - 160, 100, 150, 30);
 
     mDummyCachedComponent->setBounds(10, 200, getWidth() - 20, getHeight() - 210);
 }

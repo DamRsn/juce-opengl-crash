@@ -31,6 +31,7 @@ private:
 
     std::unique_ptr<juce::TextButton> mOpenGLButton;
     std::unique_ptr<juce::TextButton> mSetBufferedToImageButton;
+    std::unique_ptr<juce::TextButton> mInvalidateCachedImageButton;
 
     std::unique_ptr<DummyCachedComponent> mDummyCachedComponent;
 

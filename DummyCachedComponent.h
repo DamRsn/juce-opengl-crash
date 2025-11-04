@@ -11,7 +11,11 @@ class DummyCachedComponent : public juce::Component
 {
 public:
 
-    DummyCachedComponent() = default;
+    explicit DummyCachedComponent(bool shouldBufferToImageOnStart)
+    {
+        mBufferedImage = shouldBufferToImageOnStart;
+        setBufferedToImage(mBufferedImage);
+    }
 
     void resized() override {}
 
