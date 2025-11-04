@@ -11,14 +11,15 @@ What this repo is
 
 Plugin UI
 
-- The plugin UI has two buttons:
+- The plugin UI has three buttons:
     - Left button: connect / disconnect the OpenGL renderer for the main Editor.
     - Right button: toggle `setBufferedToImage(true/false)` on `DummyCachedComponent` (a component that shows a small
       text label at the bottom of the UI).
+    - "Invalidate": calls `juce::Component::getCachedComponentImage()->invalidateAll()` on `DummyCachedComponent`.
 
 Reproduction steps (quick)
 
-1. Launch the Standalone build of the plugin (with debugger attached). (Note that OpenGL and Image Caching are on).
+1. Launch the Standalone build of the plugin (with debugger attached). Note that OpenGL and Image Caching are on.
 2. Click the Invalidate button and see that there's a crash because `getCachedComponentImage()` returns a `nullptr`
 
 Also one can get a crash by clicking "Invalidate" with OpenGL off, if the component was cached with OpenGL on.
