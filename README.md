@@ -1,7 +1,7 @@
 # Juce OpenGL + Image Caching Crash Repro
 
-Simple reproducible example of a crash in JUCE when using OpenGL and image caching via
-`juce::Component::setBufferedToImage`.
+Simple reproducible example of a crash in JUCE when using OpenGL, image caching via
+`juce::Component::setBufferedToImage` and `juce::Component::getCachedComponentImage()->invalidateAll()`.
 
 What this repo is
 
@@ -18,17 +18,10 @@ Plugin UI
 
 Reproduction steps (quick)
 
-1. Launch the Standalone build of the plugin (with debugger attached).
-2. Click the Left button to enable OpenGL rendering.
-3. Click the Right button to turn on image caching for the dummy component.
-4. Click the Left button again to disable OpenGL rendering.
+1. Launch the Standalone build of the plugin (with debugger attached). (Note that OpenGL and Image Caching are on).
+2. Click the Invalidate button and see that there's a crash because `getCachedComponentImage()` returns a `nullptr`
 
-Expected / observed behavior
-
-- Windows: If the component was cached while using OpenGL, disabling OpenGL causes a crash (if the component is still
-  cached).
-- macOS: There is no crash, but the dummy cached component disappears when disabling OpenGL if it was cached while using
-  OpenGL. It re-appears if you disable/enable caching.
+Also one can get a crash by clicking "Invalidate" with OpenGL off, if the component was cached with OpenGL on.
 
 ## Build the plugin
 
