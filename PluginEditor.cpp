@@ -9,7 +9,7 @@ SimpleEffectAudioProcessorEditor::SimpleEffectAudioProcessorEditor(SimpleEffectA
     juce::ignoreUnused(processorRef);
 
     mUseD2D = true;
-    mUseOpenGL = true;
+    mUseOpenGL = false;
     // bool start_with_cached_image = true;
 
     mOpenGLButton = std::make_unique<juce::TextButton>(mUseOpenGL ? "Disable OpenGL" : "Use OpenGL");
@@ -130,7 +130,7 @@ void SimpleEffectAudioProcessorEditor::checkRenderEngine()
     peer->setCurrentRenderingEngine(renderer_idx);
 
     if (mUseOpenGL) {
-        // mOpenGLContext.setImageCacheSize(64 * 1024 * 1024);
+        mOpenGLContext.setImageCacheSize(64 * 1024 * 1024);
         mOpenGLContext.attachTo(*this);
     } else {
         mOpenGLContext.detach();
