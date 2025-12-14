@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DummyCachedComponent.h"
+#include "ExpensiveComponent.h"
 #include "PluginProcessor.h"
 #include <juce_gui_basics/juce_gui_basics.h>
 #include <juce_opengl/juce_opengl.h>
@@ -26,12 +27,16 @@ private:
     SimpleEffectAudioProcessor& processorRef;
 
     bool mUseOpenGL = false;
+    bool mUseD2D = true;
 
     juce::OpenGLContext mOpenGLContext;
 
     std::unique_ptr<juce::TextButton> mOpenGLButton;
+    std::unique_ptr<juce::TextButton> mD2DButton;
     std::unique_ptr<juce::TextButton> mSetBufferedToImageButton;
     std::unique_ptr<juce::TextButton> mInvalidateCachedImageButton;
+
+    ExpensiveComponent mExpensiveComponent;
 
     std::unique_ptr<DummyCachedComponent> mDummyCachedComponent;
 
