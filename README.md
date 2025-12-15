@@ -1,10 +1,10 @@
 # JUCE D2D and OpenGL issues demo
 
-Simple reproducible example of graphics issues on latest juce, with multiple instances (D2D and OpenGL).
+Simple reproducible example of graphics issues on latest juce, with multiple instances.
 
 What this repo is:
 
-- A tiny JUCE audio plugin project that demonstrates freezing UI on multiple instance when using Direct2D or OpenGL.
+- A tiny JUCE audio plugin project that demonstrates freezing UI on multiple instances when using Direct2D.
 - The project uses JUCE `develop` as a submodule (see the `JUCE/` folder).
 
 Plugin UI
