@@ -8,9 +8,9 @@ SimpleEffectAudioProcessorEditor::SimpleEffectAudioProcessorEditor(SimpleEffectA
 {
     juce::ignoreUnused(processorRef);
 
+    // Default to start with
     mUseD2D = true;
     mUseOpenGL = false;
-    // bool start_with_cached_image = true;
 
     mOpenGLButton = std::make_unique<juce::TextButton>(mUseOpenGL ? "Disable OpenGL" : "Use OpenGL");
     mOpenGLButton->onClick = [this]() {
@@ -27,27 +27,6 @@ SimpleEffectAudioProcessorEditor::SimpleEffectAudioProcessorEditor(SimpleEffectA
         checkRenderEngine();
     };
     addAndMakeVisible(mD2DButton.get());
-
-    // mSetBufferedToImageButton = std::make_unique<juce::TextButton>("Set Buffered To Image");
-    // mSetBufferedToImageButton->onClick = [this] {
-    //     mDummyCachedComponent->changeBufferedToImage();
-    //     repaint();
-    //
-    //     mInvalidateCachedImageButton->setEnabled(mDummyCachedComponent->isUsingBufferedImage());
-    // };
-    // addAndMakeVisible(mSetBufferedToImageButton.get());
-
-    // mDummyCachedComponent = std::make_unique<DummyCachedComponent>(start_with_cached_image);
-    // addAndMakeVisible(mDummyCachedComponent.get());
-    //
-    // mInvalidateCachedImageButton = std::make_unique<juce::TextButton>("Invalidate");
-    // mInvalidateCachedImageButton->onClick = [this] {
-    //     jassert(mDummyCachedComponent->isUsingBufferedImage());
-    //     jassert(mDummyCachedComponent->getCachedComponentImage() != nullptr);
-    //     mDummyCachedComponent->getCachedComponentImage()->invalidateAll();
-    // };
-    // mInvalidateCachedImageButton->setEnabled(mDummyCachedComponent->isUsingBufferedImage());
-    // addAndMakeVisible(mInvalidateCachedImageButton.get());
 
     addAndMakeVisible(mExpensiveComponent);
 
@@ -81,25 +60,12 @@ void SimpleEffectAudioProcessorEditor::paint(juce::Graphics& g)
     } else {
         g.drawFittedText("NOT using D2D", d2d_rect, juce::Justification::centred, 1);
     }
-
-    // auto buffered_image_rect =
-    //     juce::Rectangle<int>(mSetBufferedToImageButton->getBounds().expanded(20).translated(0, 40));
-    //
-    // if (mDummyCachedComponent->isUsingBufferedImage()) {
-    //     g.drawFittedText("Using BufferedImage", buffered_image_rect, juce::Justification::centred, 1);
-    // } else {
-    //     g.drawFittedText("NOT Using BufferedImage", buffered_image_rect, juce::Justification::centred, 1);
-    // }
 }
 
 void SimpleEffectAudioProcessorEditor::resized()
 {
     mOpenGLButton->setBounds(10, 10, 100, 30);
     mD2DButton->setBounds(150, 10, 100, 30);
-    // mSetBufferedToImageButton->setBounds(getWidth() - 160, 10, 150, 30);
-    // mInvalidateCachedImageButton->setBounds(getWidth() - 160, 100, 150, 30);
-
-    // mDummyCachedComponent->setBounds(10, 200, getWidth() - 20, getHeight() - 210);
     mExpensiveComponent.setBounds(10, 100, getWidth() - 20, getHeight() - 90);
 }
 

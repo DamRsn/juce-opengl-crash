@@ -1,28 +1,21 @@
-# Juce OpenGL + Image Caching Crash Repro
+# JUCE D2D and OpenGL issues demo
 
-Simple reproducible example of a crash in JUCE when using OpenGL, image caching via
-`juce::Component::setBufferedToImage` and `juce::Component::getCachedComponentImage()->invalidateAll()`.
+Simple reproducible example of graphics issues on latest juce, with multiple instances (D2D and OpenGL).
 
-What this repo is
+What this repo is:
 
-- A tiny JUCE audio plugin project that demonstrates a bug when combining OpenGL rendering and component image caching.
-- The project uses JUCE `master` as a submodule (see the `JUCE/` folder).
-- The Standalone target is the easiest way to test the bug.
+- A tiny JUCE audio plugin project that demonstrates freezing UI on multiple instance when using Direct2D or OpenGL.
+- The project uses JUCE `develop` as a submodule (see the `JUCE/` folder).
 
 Plugin UI
 
-- The plugin UI has three buttons:
-    - Left button: connect / disconnect the OpenGL renderer for the main Editor.
-    - Right button: toggle `setBufferedToImage(true/false)` on `DummyCachedComponent` (a component that shows a small
-      text label at the bottom of the UI).
-    - "Invalidate": calls `juce::Component::getCachedComponentImage()->invalidateAll()` on `DummyCachedComponent`.
+There are 2 buttons: one to enable D2D and one to enable OpenGL.
 
-Reproduction steps (quick)
+The bottom component (ExpensiveComponent) draws a lot of paths to simulate a heavy drawing load.
 
-1. Launch the Standalone build of the plugin (with debugger attached). Note that OpenGL and Image Caching are on.
-2. Click the Invalidate button and see that there's a crash because `getCachedComponentImage()` returns a `nullptr`
-
-Also one can get a crash by clicking "Invalidate" with OpenGL off, if the component was cached with OpenGL on.
+- It has a slider to control the number of paths drawn, and check the responsiveness of the UI to clicks.
+- Its paint function is timed, as well as the time between different paint calls. Those two times are displayed in the
+  UI ((average on last 10 calls).
 
 ## Build the plugin
 
@@ -31,4 +24,5 @@ Also one can get a crash by clicking "Invalidate" with OpenGL off, if the compon
    git clone --recurse-submodules <repo-url>
    ```
 2. Run cmake
-3. Build and run the Standalone target.
+3. Build plugin target
+4. Load it in DAW

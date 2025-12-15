@@ -1,6 +1,5 @@
 #pragma once
 
-#include "DummyCachedComponent.h"
 #include "ExpensiveComponent.h"
 #include "PluginProcessor.h"
 #include <juce_gui_basics/juce_gui_basics.h>
@@ -37,8 +36,6 @@ private:
     std::unique_ptr<juce::TextButton> mInvalidateCachedImageButton;
 
     ExpensiveComponent mExpensiveComponent;
-
-    std::unique_ptr<DummyCachedComponent> mDummyCachedComponent;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SimpleEffectAudioProcessorEditor)
 };
