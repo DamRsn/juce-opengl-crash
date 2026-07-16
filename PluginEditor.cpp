@@ -30,7 +30,14 @@ SimpleEffectAudioProcessorEditor::SimpleEffectAudioProcessorEditor(SimpleEffectA
 
     addAndMakeVisible(mExpensiveComponent);
 
-    setSize(600, 400);
+    mDummySlider = std::make_unique<juce::Slider>();
+    mDummySlider->setRange(0.0f, 1.0f, 0.0f);
+    mDummySlider->setSliderStyle(juce::Slider::LinearHorizontal);
+    mDummySlider->setNumDecimalPlacesToDisplay(2);
+    mDummySlider->setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 10);
+    addAndMakeVisible(mDummySlider.get());
+
+    setSize(1200, 800);
 }
 
 SimpleEffectAudioProcessorEditor::~SimpleEffectAudioProcessorEditor()
@@ -60,12 +67,26 @@ void SimpleEffectAudioProcessorEditor::paint(juce::Graphics& g)
     } else {
         g.drawFittedText("NOT using D2D", d2d_rect, juce::Justification::centred, 1);
     }
+
+    // Print juce version
+    g.drawFittedText("JUCE version: " + juce::String(JUCE_MAJOR_VERSION) + "." + juce::String(JUCE_MINOR_VERSION) + "."
+                         + juce::String(JUCE_BUILDNUMBER),
+                     getLocalBounds(),
+                     juce::Justification::topRight,
+                     1);
+
+    // Print compilation date and time
+    g.drawFittedText("Compiled on: " + juce::String(__DATE__) + " at " + juce::String(__TIME__),
+                     getLocalBounds().removeFromBottom(getHeight() - 20),
+                     juce::Justification::topRight,
+                     1);
 }
 
 void SimpleEffectAudioProcessorEditor::resized()
 {
     mOpenGLButton->setBounds(10, 10, 100, 30);
     mD2DButton->setBounds(150, 10, 100, 30);
+    mDummySlider->setBounds(260, 45, 250, 50);
     mExpensiveComponent.setBounds(10, 100, getWidth() - 20, getHeight() - 90);
 }
 

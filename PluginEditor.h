@@ -35,6 +35,8 @@ private:
     std::unique_ptr<juce::TextButton> mSetBufferedToImageButton;
     std::unique_ptr<juce::TextButton> mInvalidateCachedImageButton;
 
+    std::unique_ptr<juce::Slider> mDummySlider;
+
     ExpensiveComponent mExpensiveComponent;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SimpleEffectAudioProcessorEditor)
